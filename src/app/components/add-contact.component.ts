@@ -4,6 +4,7 @@ import { ContactFormComponent } from './contact-form.component';
 import { Contact } from '../model/contact.model';
 import { ApiService } from '../services/api.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { firstValueFrom } from "rxjs";
 
 @Component({
   selector: 'app-add-contact',
@@ -27,7 +28,8 @@ export class AddContactComponent {
 
   async addContact(newContact: Contact) {
     this.saving.set(true);
-    await this.api.addContact(newContact);
+    // await this.api.addContact(newContact);
+    firstValueFrom(this.api.addContact(newContact));
     this.saving.set(false);
     this.router.navigate(['/']);
   }

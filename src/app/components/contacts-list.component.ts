@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { firstValueFrom } from "rxjs";
 
 @Component({
   selector: 'app-contacts-list',
@@ -51,11 +52,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ContactsListComponent {
   apiService = inject(ApiService);
-
   contactsResource = resource({
-    loader: () => this.apiService.getContacts(),
+    // loader: () => this.apiService.getContacts(),
+    loader: () => firstValueFrom(this.apiService.getContacts()),
   });
-
   deleting = signal(false);
 
   loading = computed(
@@ -64,7 +64,8 @@ export class ContactsListComponent {
 
   async deleteContact(id: string) {
     this.deleting.set(true);
-    await this.apiService.deleteContact(id);
+    // await this.apiService.deleteContact(id);
+    await firstValueFrom(this.apiService.deleteContact(id));
     this.deleting.set(false);
     this.contactsResource.reload();
   }

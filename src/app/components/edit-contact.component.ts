@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { firstValueFrom } from "rxjs";
 
 @Component({
   selector: 'app-edit-contact',
@@ -47,12 +48,14 @@ export class EditContactComponent {
 
   contactResource = resource({
     request: this.id,
-    loader: ({ request: id }) => this.apiService.getContact(id),
+    // loader: ({ request: id }) => this.apiService.getContact(id),
+    loader: ({ request: id }) => firstValueFrom(this.apiService.getContact(id)),
   });
 
   async updateContact(contact: Contact) {
     this.saving.set(true);
-    await this.apiService.updateContact(contact);
+    // await this.apiService.updateContact(contact);
+    firstValueFrom(this.apiService.updateContact(contact));
     this.saving.set(false);
     this.router.navigate(['/']);
   }

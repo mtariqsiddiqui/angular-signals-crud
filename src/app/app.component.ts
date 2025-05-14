@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ApiService } from "./services/api.service";
 
 @Component({
   selector: 'app-root',
@@ -57,4 +58,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class AppComponent {
   title = 'Angular Signals Crud';
+
+  constructor(private apiService: ApiService) {
+    // for debugging purpose; just to check the rest operation directly from browser console
+    (window as any).apiService = this.apiService;
+  }
 }
